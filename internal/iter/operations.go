@@ -929,7 +929,16 @@ func Sort[T constraints.Ordered](i Iter[T]) Iter[T] {
 // - If k >= len(slice), performs a full sort.
 func PartialSort[T constraints.Ordered](k int, iter Iter[T]) Iter[T] {
 	s := ToSlice(iter)
-	heapsort.PartialSort(s, k)
+	heapsort.PartialSort(k, s)
+	return StealSlice(s)
+}
+
+// PartialSortBy reorders the slice so that the first k elements are the top-k
+// according to the comparison function `less`, and sorted in that order.
+// return a new iterator.
+func PartialSortBy[T constraints.Ordered](less func(T, T) bool, k int, iter Iter[T]) Iter[T] {
+	s := ToSlice(iter)
+	heapsort.PartialSortBy(less, k, s)
 	return StealSlice(s)
 }
 
