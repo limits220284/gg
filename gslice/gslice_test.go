@@ -668,49 +668,45 @@ func TestPartialSort(t *testing.T) {
 }
 
 func TestPartialSortByDescending(t *testing.T) {
-	greater := func(a, b int) bool {
-		return a > b
-	}
-
 	// Basic case - first k elements should be k largest, sorted descending
 	{
 		s := []int{5, 2, 9, 1, 5, 6}
-		PartialSortBy(s, 3, greater)
+		PartialSortBy(s, 3, gvalue.Greater[int])
 		assert.Equal(t, []int{9, 6, 5, 1, 2, 5}, s) // First 3 are largest, sorted descending
 	}
 
 	// k == length (full descending sort)
 	{
 		s := []int{3, 1, 4}
-		PartialSortBy(s, 3, greater)
+		PartialSortBy(s, 3, gvalue.Greater[int])
 		assert.Equal(t, []int{4, 3, 1}, s)
 	}
 
 	// k > length (full descending sort)
 	{
 		s := []int{3, 7}
-		PartialSortBy(s, 5, greater)
+		PartialSortBy(s, 5, gvalue.Greater[int])
 		assert.Equal(t, []int{7, 3}, s)
 	}
 
 	// Empty slice
 	{
 		s := []int{}
-		PartialSortBy(s, 2, greater)
+		PartialSortBy(s, 2, gvalue.Greater[int])
 		assert.Equal(t, []int{}, s)
 	}
 
 	// k == 0 (no-op)
 	{
 		s := []int{5, 2, 8}
-		PartialSortBy(s, 0, greater)
+		PartialSortBy(s, 0, gvalue.Greater[int])
 		assert.Equal(t, []int{5, 2, 8}, s)
 	}
 
 	// Already descending
 	{
 		s := []int{5, 4, 3, 2, 1}
-		PartialSortBy(s, 3, greater)
+		PartialSortBy(s, 3, gvalue.Greater[int])
 		assert.Equal(t, []int{5, 4, 3, 2, 1}, s)
 	}
 }
